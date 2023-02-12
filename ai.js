@@ -4,6 +4,7 @@ const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
     apiKey: process.env.AI_TOKEN,
 });
+
 const openai = new OpenAIApi(configuration);
 async function ask(prompt) {
     const response = await openai.createCompletion({
