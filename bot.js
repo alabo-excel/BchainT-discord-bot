@@ -6,7 +6,7 @@ const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.DirectMessages
+        GatewayIntentBits.MessageContent,
     ],
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
@@ -16,14 +16,16 @@ client.on("ready", () => {
 })
 
 client.on('messageCreate', async (message) => {
+    if (message.author.bot) return;
     message.react('👍');
-});
+})
 
-setInterval(async function () {
-    const answer = await ask("Generate a random blockchain word with detailed explanation, examples and use cases");
-    const channel = client.channels.cache.get('1072522772204507238');
-    channel.send(`@everyone \n\nWORD OF THE DAY 🎉🎉  ${answer} \n\nWAGMI  🚀🚀 `);
-}, 10000);
-// 86400000
+client.on('messageCreate', async (message) => {
+    if (message.author.bot) return;
+    if (message.mentions.has(client.user.id) || message.content.endsWith("?")) {
+        const answer = await ask(message.content);
+        message.reply(answer)
+    }
+});
 
 client.login(process.env.DISCORD_TOKEN);
