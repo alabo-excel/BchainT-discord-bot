@@ -11,9 +11,9 @@ const client = new Client({
     partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 });
 
-client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}!`)
-})
+// client.on("ready", () => {
+//     console.log(`Logged in as ${client.user.tag}!`)
+// })
 
 client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
